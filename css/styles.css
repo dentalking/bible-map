@@ -392,38 +392,6 @@ body {
     border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-.legend {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.95);
-    padding: 15px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    z-index: 1100;
-    max-width: 250px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.legend h3 {
-    color: #d4af37;
-    margin-bottom: 12px;
-    font-size: 1.1em;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 10px 0;
-    color: #fff;
-    font-size: 13px;
-}
-
-.legend-line {
-    width: 30px;
-    height: 3px;
-    border-radius: 2px;
-}
-
 .quick-buttons {
     margin-top: 15px;
     display: flex;
@@ -528,47 +496,11 @@ body {
     transform: rotate(180deg);
 }
 
-/* 범례 헤더 */
-.legend-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    cursor: move;
-    user-select: none;
-    transition: background 0.2s;
-    padding: 5px;
-    margin: -5px -5px 10px -5px;
-    border-radius: 6px;
-}
-
-.legend-header:hover {
-    background: rgba(212, 175, 55, 0.1);
-}
-
-.legend-header h3 {
-    margin: 0;
-}
-
-/* 범례 접힌 상태 */
-.legend.collapsed .legend-content {
-    display: none;
-}
-
-.legend.collapsed .toggle-icon {
-    transform: rotate(-90deg);
-}
-
 /* 드래그 중 스타일 */
 .dragging {
     cursor: grabbing !important;
     opacity: 0.9;
     box-shadow: 0 12px 40px rgba(212, 175, 55, 0.6);
-    z-index: 9999 !important;
-}
-
-/* 범례가 패널 위로 올라올 수 있도록 */
-.legend.dragging {
     z-index: 9999 !important;
 }
 
@@ -609,15 +541,5 @@ body {
     .tab-btn {
         font-size: 11px;
         padding: 8px 5px;
-    }
-
-    .legend {
-        bottom: 80px;
-        right: 10px;
-        max-width: 200px;
-    }
-
-    .legend.collapsed {
-        width: auto;
     }
 }

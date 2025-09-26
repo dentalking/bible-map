@@ -426,18 +426,6 @@ togglePanel.addEventListener('click', function() {
     localStorage.setItem('panelCollapsed', isCollapsed);
 });
 
-// 범례 토글 기능
-const toggleLegend = document.getElementById('toggleLegend');
-const legend = document.getElementById('legend');
-
-toggleLegend.addEventListener('click', function() {
-    legend.classList.toggle('collapsed');
-
-    // 로컬 스토리지에 상태 저장
-    const isCollapsed = legend.classList.contains('collapsed');
-    localStorage.setItem('legendCollapsed', isCollapsed);
-});
-
 // CSS 위치를 절대 좌표로 변환 (드래그 전에 호출)
 function convertToAbsolutePosition(element) {
     const rect = element.getBoundingClientRect();
@@ -450,7 +438,7 @@ function convertToAbsolutePosition(element) {
 // 드래그 기능
 function makeDraggable(element) {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    let header = element.querySelector('.panel-header, .legend-header');
+    let header = element.querySelector('.panel-header');
 
     if (header) {
         header.onmousedown = dragMouseDown;
@@ -564,13 +552,7 @@ function restorePosition(element) {
         element.style.bottom = "auto";
     } else {
         // 저장된 위치가 없으면 기본 위치 설정
-        if (id === 'legend') {
-            // 범례는 오른쪽 아래 (bottom: 20px, right: 20px 효과)
-            element.style.bottom = '20px';
-            element.style.right = '20px';
-            element.style.top = 'auto';
-            element.style.left = 'auto';
-        } else if (id === 'controlPanel') {
+        if (id === 'controlPanel') {
             // 패널은 왼쪽 위 (이미 CSS에 설정되어 있음)
             element.style.top = '20px';
             element.style.left = '20px';
@@ -588,15 +570,8 @@ function restoreState() {
         controlPanel.classList.add('collapsed');
     }
 
-    // 범례 상태 복원
-    const legendCollapsed = localStorage.getItem('legendCollapsed');
-    if (legendCollapsed === 'true') {
-        legend.classList.add('collapsed');
-    }
-
     // 위치 복원
     restorePosition(controlPanel);
-    restorePosition(legend);
 }
 
 // 모바일 감지 및 기본 접힌 상태
@@ -616,7 +591,6 @@ window.onload = function() {
 
     // 드래그 가능하게 만들기
     makeDraggable(controlPanel);
-    makeDraggable(legend);
 
     // 상태 복원
     restoreState();
