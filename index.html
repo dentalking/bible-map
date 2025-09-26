@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>성경 통합 지도 - 완전판</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="map" role="application" aria-label="성경 지도"></div>
+
+    <nav class="control-panel" role="navigation" aria-label="지도 컨트롤">
+        <h2>📜 성경 통합 지도</h2>
+
+        <!-- 검색 기능 -->
+        <div class="search-box" role="search">
+            <input type="text" class="search-input" id="searchInput" placeholder="지명이나 성경책을 검색하세요..." aria-label="지명이나 성경책 검색">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+        </div>
+
+        <!-- 탭 네비게이션 -->
+        <div class="tab-navigation" role="tablist" aria-label="성경 카테고리">
+            <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="journeys-tab" onclick="switchTab(event, 'journeys')">여정</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="old-testament-tab" onclick="switchTab(event, 'old-testament')">구약성경</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="new-testament-tab" onclick="switchTab(event, 'new-testament')">신약성경</button>
+            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="revelation-tab" onclick="switchTab(event, 'revelation')">계시록</button>
+        </div>
+
+        <!-- 여정 탭 -->
+        <div id="journeys-tab" class="tab-content active">
+            <div class="testament-section">
+                <div class="testament-title">🏛️ 구약 여정</div>
+                <div class="journey-grid">
+                    <button class="journey-btn" onclick="showJourney(event, 'patriarch')" aria-label="족장들의 이동경로 보기: 아브라함에서 요셉까지">
+                        <span class="journey-icon" aria-hidden="true">👨‍👩‍👦</span>
+                        <div class="journey-info">
+                            <span class="journey-name">족장들의 이동경로</span>
+                            <span class="journey-desc">아브라함에서 요셉까지</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'exodus')">
+                        <span class="journey-icon">🏃</span>
+                        <div class="journey-info">
+                            <span class="journey-name">출애굽 여정</span>
+                            <span class="journey-desc">애굽에서 시내산까지</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'wilderness')">
+                        <span class="journey-icon">🏜️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">광야 40년</span>
+                            <span class="journey-desc">시내산에서 모압평지까지</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'conquest')">
+                        <span class="journey-icon">⚔️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">가나안 정복</span>
+                            <span class="journey-desc">여호수아의 정복 전쟁</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'exile')">
+                        <span class="journey-icon">⛓️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">바벨론 포로</span>
+                            <span class="journey-desc">유다의 멸망과 귀환</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="testament-section">
+                <div class="testament-title">✝️ 신약 여정</div>
+                <div class="journey-grid">
+                    <button class="journey-btn" onclick="showJourney(event, 'jesus_birth')">
+                        <span class="journey-icon">⭐</span>
+                        <div class="journey-info">
+                            <span class="journey-name">예수님 탄생과 유년기</span>
+                            <span class="journey-desc">베들레헴에서 나사렛까지</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'jesus_ministry')">
+                        <span class="journey-icon">🕊️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">예수님의 공생애</span>
+                            <span class="journey-desc">갈릴리와 유대 사역</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'jesus_final')">
+                        <span class="journey-icon">✝️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">고난주간</span>
+                            <span class="journey-desc">마지막 예루살렘 여정</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'paul_first')">
+                        <span class="journey-icon">⛵</span>
+                        <div class="journey-info">
+                            <span class="journey-name">바울 1차 선교여행</span>
+                            <span class="journey-desc">AD 46-48년 (귀환 포함)</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'paul_second')">
+                        <span class="journey-icon">🌍</span>
+                        <div class="journey-info">
+                            <span class="journey-name">바울 2차 선교여행</span>
+                            <span class="journey-desc">AD 49-52년 (귀환 포함)</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'paul_third')">
+                        <span class="journey-icon">🏛️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">바울 3차 선교여행</span>
+                            <span class="journey-desc">AD 53-57년 (귀환 포함)</span>
+                        </div>
+                    </button>
+                    <button class="journey-btn" onclick="showJourney(event, 'paul_rome')">
+                        <span class="journey-icon">⛓️</span>
+                        <div class="journey-info">
+                            <span class="journey-name">바울의 로마 여행</span>
+                            <span class="journey-desc">죄수로서의 여정</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 구약성경 탭 -->
+        <div id="old-testament-tab" class="tab-content">
+            <div class="book-section">
+                <h3>모세오경</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '창세기')">창세기</button>
+                    <button class="book-btn" onclick="showBook(event, '출애굽기')">출애굽기</button>
+                    <button class="book-btn" onclick="showBook(event, '레위기')">레위기</button>
+                    <button class="book-btn" onclick="showBook(event, '민수기')">민수기</button>
+                    <button class="book-btn" onclick="showBook(event, '신명기')">신명기</button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>역사서</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '여호수아')">여호수아</button>
+                    <button class="book-btn" onclick="showBook(event, '사사기')">사사기</button>
+                    <button class="book-btn" onclick="showBook(event, '룻기')">룻기</button>
+                    <button class="book-btn" onclick="showBook(event, '사무엘상')">사무엘상</button>
+                    <button class="book-btn" onclick="showBook(event, '사무엘하')">사무엘하</button>
+                    <button class="book-btn" onclick="showBook(event, '열왕기상')">열왕기상</button>
+                    <button class="book-btn" onclick="showBook(event, '열왕기하')">열왕기하</button>
+                    <button class="book-btn" onclick="showBook(event, '역대상')">역대상</button>
+                    <button class="book-btn" onclick="showBook(event, '역대하')">역대하</button>
+                    <button class="book-btn" onclick="showBook(event, '에스라')">에스라</button>
+                    <button class="book-btn" onclick="showBook(event, '느헤미야')">느헤미야</button>
+                    <button class="book-btn" onclick="showBook(event, '에스더')">에스더</button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>시가서</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '욥기')">욥기</button>
+                    <button class="book-btn" onclick="showBook(event, '시편')">시편</button>
+                    <button class="book-btn" onclick="showBook(event, '잠언')">잠언</button>
+                    <button class="book-btn" onclick="showBook(event, '전도서')">전도서</button>
+                    <button class="book-btn" onclick="showBook(event, '아가')">아가</button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>선지서</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '이사야')">이사야</button>
+                    <button class="book-btn" onclick="showBook(event, '예레미야')">예레미야</button>
+                    <button class="book-btn" onclick="showBook(event, '예레미야애가')">애가</button>
+                    <button class="book-btn" onclick="showBook(event, '에스겔')">에스겔</button>
+                    <button class="book-btn" onclick="showBook(event, '다니엘')">다니엘</button>
+                    <button class="book-btn" onclick="showBook(event, '호세아')">호세아</button>
+                    <button class="book-btn" onclick="showBook(event, '요엘')">요엘</button>
+                    <button class="book-btn" onclick="showBook(event, '아모스')">아모스</button>
+                    <button class="book-btn" onclick="showBook(event, '오바댜')">오바댜</button>
+                    <button class="book-btn" onclick="showBook(event, '요나')">요나</button>
+                    <button class="book-btn" onclick="showBook(event, '미가')">미가</button>
+                    <button class="book-btn" onclick="showBook(event, '나훔')">나훔</button>
+                    <button class="book-btn" onclick="showBook(event, '하박국')">하박국</button>
+                    <button class="book-btn" onclick="showBook(event, '스바냐')">스바냐</button>
+                    <button class="book-btn" onclick="showBook(event, '학개')">학개</button>
+                    <button class="book-btn" onclick="showBook(event, '스가랴')">스가랴</button>
+                    <button class="book-btn" onclick="showBook(event, '말라기')">말라기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 신약성경 탭 -->
+        <div id="new-testament-tab" class="tab-content">
+            <div class="book-section">
+                <h3>📜 신구약 중간시대</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '신구약중간시대')" style="background: linear-gradient(135deg, #9B59B6 0%, #8E44AD 100%); color: white; font-weight: bold;">
+                        침묵의 400년 (BC 430-5년)
+                    </button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>복음서</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '마태복음')">마태복음</button>
+                    <button class="book-btn" onclick="showBook(event, '마가복음')">마가복음</button>
+                    <button class="book-btn" onclick="showBook(event, '누가복음')">누가복음</button>
+                    <button class="book-btn" onclick="showBook(event, '요한복음')">요한복음</button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>역사서</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '사도행전')">사도행전</button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>바울서신</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '로마서')">로마서</button>
+                    <button class="book-btn" onclick="showBook(event, '고린도전서')">고린도전서</button>
+                    <button class="book-btn" onclick="showBook(event, '고린도후서')">고린도후서</button>
+                    <button class="book-btn" onclick="showBook(event, '갈라디아서')">갈라디아서</button>
+                    <button class="book-btn" onclick="showBook(event, '에베소서')">에베소서</button>
+                    <button class="book-btn" onclick="showBook(event, '빌립보서')">빌립보서</button>
+                    <button class="book-btn" onclick="showBook(event, '골로새서')">골로새서</button>
+                    <button class="book-btn" onclick="showBook(event, '데살로니가전서')">데살로니가전서</button>
+                    <button class="book-btn" onclick="showBook(event, '데살로니가후서')">데살로니가후서</button>
+                    <button class="book-btn" onclick="showBook(event, '디모데전서')">디모데전서</button>
+                    <button class="book-btn" onclick="showBook(event, '디모데후서')">디모데후서</button>
+                    <button class="book-btn" onclick="showBook(event, '디도서')">디도서</button>
+                    <button class="book-btn" onclick="showBook(event, '빌레몬서')">빌레몬서</button>
+                </div>
+            </div>
+
+            <div class="book-section">
+                <h3>일반서신</h3>
+                <div class="books-grid">
+                    <button class="book-btn" onclick="showBook(event, '히브리서')">히브리서</button>
+                    <button class="book-btn" onclick="showBook(event, '야고보서')">야고보서</button>
+                    <button class="book-btn" onclick="showBook(event, '베드로전서')">베드로전서</button>
+                    <button class="book-btn" onclick="showBook(event, '베드로후서')">베드로후서</button>
+                    <button class="book-btn" onclick="showBook(event, '요한일서')">요한일서</button>
+                    <button class="book-btn" onclick="showBook(event, '요한이서')">요한이서</button>
+                    <button class="book-btn" onclick="showBook(event, '요한삼서')">요한삼서</button>
+                    <button class="book-btn" onclick="showBook(event, '유다서')">유다서</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 요한계시록 탭 -->
+        <div id="revelation-tab" class="tab-content">
+            <div class="testament-section">
+                <div class="testament-title">🔮 요한계시록</div>
+                <div class="journey-grid">
+                    <button class="journey-btn" onclick="showJourney(event, 'revelation_seven')">
+                        <span class="journey-icon">📜</span>
+                        <div class="journey-info">
+                            <span class="journey-name">일곱 교회</span>
+                            <span class="journey-desc">소아시아의 일곱 교회</span>
+                        </div>
+                    </button>
+                    <button class="book-btn" onclick="showBook(event, '요한계시록')">요한계시록 전체 지명</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 빠른 이동 버튼 -->
+        <div class="quick-buttons">
+            <button class="quick-btn" onclick="showAllLocations()">전체 보기</button>
+            <button class="quick-btn" onclick="clearMap()">초기화</button>
+            <button class="quick-btn" onclick="zoomToIsrael()">이스라엘</button>
+        </div>
+
+        <div class="current-selection" id="current-selection" style="display: none;">
+            <h3 id="selection-title">선택된 항목</h3>
+            <p id="selection-description"></p>
+            <div class="selection-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="location-count">0</div>
+                    <div class="stat-label">지명 수</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="period-info">-</div>
+                    <div class="stat-label">시기</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>📌 사용법:</strong><br>
+            • 상단 검색으로 빠른 찾기<br>
+            • 탭으로 카테고리 선택<br>
+            • 여정/성경책 클릭으로 지명 표시<br>
+            • 번호는 시간/사건 순서<br>
+            • 각 지점 클릭으로 상세 정보<br>
+            • 마우스 휠로 확대/축소<br>
+            • 빠른 버튼으로 편리한 이동
+        </div>
+    </div>
+
+    <div class="legend">
+        <h3>범례</h3>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #FF6B6B;"></div>
+            <span>구약 여정/지명</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #9B59B6;"></div>
+            <span>신구약 중간시대</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #4ECDC4;"></div>
+            <span>신약 여정/지명</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #8E44AD;"></div>
+            <span>요한계시록</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-line" style="background: #FFA500; border: 2px dashed #FFA500; background: transparent;"></div>
+            <span>귀환 경로</span>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

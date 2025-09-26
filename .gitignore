@@ -1,0 +1,52 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Backup files
+*.backup
+*.bak
+*.phase1
+*.phase2
+*.phase2backup
+*.phase3a
+*.phase3b
+*.phase4_complete
+*.before_intertestamental
+*.with_intertestamental
+
+# Logs
+*.log
+server.log
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+test-summary.txt
+
+# Node modules (if ever needed)
+node_modules/
