@@ -400,7 +400,7 @@ body {
     padding: 15px;
     border-radius: 10px;
     backdrop-filter: blur(10px);
-    z-index: 1000;
+    z-index: 1100;
     max-width: 250px;
     border: 1px solid rgba(212, 175, 55, 0.3);
 }
@@ -460,6 +460,14 @@ body {
     padding-bottom: 12px;
     cursor: move;
     user-select: none;
+    transition: background 0.2s;
+    padding: 10px;
+    margin: -10px -10px 20px -10px;
+    border-radius: 8px 8px 0 0;
+}
+
+.panel-header:hover {
+    background: rgba(212, 175, 55, 0.1);
 }
 
 .panel-title {
@@ -530,6 +538,14 @@ body {
     margin-bottom: 10px;
     cursor: move;
     user-select: none;
+    transition: background 0.2s;
+    padding: 5px;
+    margin: -5px -5px 10px -5px;
+    border-radius: 6px;
+}
+
+.legend-header:hover {
+    background: rgba(212, 175, 55, 0.1);
 }
 
 .legend-header h3 {
@@ -550,6 +566,16 @@ body {
     cursor: grabbing !important;
     opacity: 0.9;
     box-shadow: 0 12px 40px rgba(212, 175, 55, 0.6);
+    z-index: 9999 !important;
+}
+
+/* 범례가 패널 위로 올라올 수 있도록 */
+.legend.dragging {
+    z-index: 9999 !important;
+}
+
+.control-panel.dragging {
+    z-index: 9999 !important;
 }
 
 /* 모바일 기본 접힌 상태 */
