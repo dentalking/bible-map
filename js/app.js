@@ -412,7 +412,186 @@ function performSearch(searchTerm) {
     }
 }
 
-// 페이지 로드 시 지도 초기화
+// ========== 토글 및 드래그 기능 ==========
+
+// 패널 토글 기능
+const togglePanel = document.getElementById('togglePanel');
+const controlPanel = document.getElementById('controlPanel');
+
+togglePanel.addEventListener('click', function() {
+    controlPanel.classList.toggle('collapsed');
+
+    // 로컬 스토리지에 상태 저장
+    const isCollapsed = controlPanel.classList.contains('collapsed');
+    localStorage.setItem('panelCollapsed', isCollapsed);
+});
+
+// 범례 토글 기능
+const toggleLegend = document.getElementById('toggleLegend');
+const legend = document.getElementById('legend');
+
+toggleLegend.addEventListener('click', function() {
+    legend.classList.toggle('collapsed');
+
+    // 로컬 스토리지에 상태 저장
+    const isCollapsed = legend.classList.contains('collapsed');
+    localStorage.setItem('legendCollapsed', isCollapsed);
+});
+
+// 드래그 기능
+function makeDraggable(element) {
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let header = element.querySelector('.panel-header, .legend-header');
+
+    if (header) {
+        header.onmousedown = dragMouseDown;
+        header.ontouchstart = dragTouchStart;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+        element.classList.add('dragging');
+    }
+
+    function dragTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        pos3 = touch.clientX;
+        pos4 = touch.clientY;
+        document.ontouchend = closeDragElement;
+        document.ontouchmove = elementTouchDrag;
+        element.classList.add('dragging');
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+
+        let newTop = element.offsetTop - pos2;
+        let newLeft = element.offsetLeft - pos1;
+
+        // 화면 경계 체크
+        newTop = Math.max(0, Math.min(newTop, window.innerHeight - element.offsetHeight));
+        newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - element.offsetWidth));
+
+        element.style.top = newTop + "px";
+        element.style.left = newLeft + "px";
+        element.style.right = "auto";
+        element.style.bottom = "auto";
+
+        // 위치 저장
+        savePosition(element);
+    }
+
+    function elementTouchDrag(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        pos1 = pos3 - touch.clientX;
+        pos2 = pos4 - touch.clientY;
+        pos3 = touch.clientX;
+        pos4 = touch.clientY;
+
+        let newTop = element.offsetTop - pos2;
+        let newLeft = element.offsetLeft - pos1;
+
+        // 화면 경계 체크
+        newTop = Math.max(0, Math.min(newTop, window.innerHeight - element.offsetHeight));
+        newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - element.offsetWidth));
+
+        element.style.top = newTop + "px";
+        element.style.left = newLeft + "px";
+        element.style.right = "auto";
+        element.style.bottom = "auto";
+
+        // 위치 저장
+        savePosition(element);
+    }
+
+    function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+        document.ontouchend = null;
+        document.ontouchmove = null;
+        element.classList.remove('dragging');
+    }
+
+    function savePosition(elem) {
+        const id = elem.id;
+        const position = {
+            top: elem.style.top,
+            left: elem.style.left
+        };
+        localStorage.setItem(`${id}Position`, JSON.stringify(position));
+    }
+}
+
+// 위치 복원 함수
+function restorePosition(element) {
+    const id = element.id;
+    const savedPosition = localStorage.getItem(`${id}Position`);
+
+    if (savedPosition) {
+        const position = JSON.parse(savedPosition);
+        element.style.top = position.top;
+        element.style.left = position.left;
+        element.style.right = "auto";
+        element.style.bottom = "auto";
+    }
+}
+
+// 상태 복원 함수
+function restoreState() {
+    // 패널 상태 복원
+    const panelCollapsed = localStorage.getItem('panelCollapsed');
+    if (panelCollapsed === 'true') {
+        controlPanel.classList.add('collapsed');
+    }
+
+    // 범례 상태 복원
+    const legendCollapsed = localStorage.getItem('legendCollapsed');
+    if (legendCollapsed === 'true') {
+        legend.classList.add('collapsed');
+    }
+
+    // 위치 복원
+    restorePosition(controlPanel);
+    restorePosition(legend);
+}
+
+// 모바일 감지 및 기본 접힌 상태
+function checkMobile() {
+    if (window.innerWidth <= 768) {
+        const panelCollapsed = localStorage.getItem('panelCollapsed');
+        // 로컬 스토리지에 설정이 없으면 모바일에서는 기본 접힌 상태
+        if (panelCollapsed === null) {
+            controlPanel.classList.add('collapsed');
+        }
+    }
+}
+
+// 페이지 로드 시 지도 초기화 및 UI 설정
 window.onload = function() {
     initMap();
+
+    // 드래그 가능하게 만들기
+    makeDraggable(controlPanel);
+    makeDraggable(legend);
+
+    // 상태 복원
+    restoreState();
+
+    // 모바일 체크
+    checkMobile();
 };
+
+// 윈도우 리사이즈 시 모바일 체크
+window.addEventListener('resize', checkMobile);

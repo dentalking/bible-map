@@ -11,8 +11,13 @@
 <body>
     <div id="map" role="application" aria-label="성경 지도"></div>
 
-    <nav class="control-panel" role="navigation" aria-label="지도 컨트롤">
-        <h2>📜 성경 통합 지도</h2>
+    <nav class="control-panel" id="controlPanel" role="navigation" aria-label="지도 컨트롤">
+        <div class="panel-header">
+            <h2 class="panel-title">📜 성경 통합 지도</h2>
+            <button class="toggle-btn" id="togglePanel" aria-label="패널 접기/펼치기">
+                <span class="toggle-icon">◀</span>
+            </button>
+        </div>
 
         <!-- 검색 기능 -->
         <div class="search-box" role="search">
@@ -306,27 +311,34 @@
         </div>
     </div>
 
-    <div class="legend">
-        <h3>범례</h3>
-        <div class="legend-item">
-            <div class="legend-line" style="background: #FF6B6B;"></div>
-            <span>구약 여정/지명</span>
+    <div class="legend" id="legend">
+        <div class="legend-header">
+            <h3>범례</h3>
+            <button class="toggle-btn" id="toggleLegend" aria-label="범례 접기/펼치기">
+                <span class="toggle-icon">▼</span>
+            </button>
         </div>
-        <div class="legend-item">
-            <div class="legend-line" style="background: #9B59B6;"></div>
-            <span>신구약 중간시대</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-line" style="background: #4ECDC4;"></div>
-            <span>신약 여정/지명</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-line" style="background: #8E44AD;"></div>
-            <span>요한계시록</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-line" style="background: #FFA500; border: 2px dashed #FFA500; background: transparent;"></div>
-            <span>귀환 경로</span>
+        <div class="legend-content">
+            <div class="legend-item">
+                <div class="legend-line" style="background: #FF6B6B;"></div>
+                <span>구약 여정/지명</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #9B59B6;"></div>
+                <span>신구약 중간시대</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #4ECDC4;"></div>
+                <span>신약 여정/지명</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #8E44AD;"></div>
+                <span>요한계시록</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line" style="background: #FFA500; border: 2px dashed #FFA500; background: transparent;"></div>
+                <span>귀환 경로</span>
+            </div>
         </div>
     </div>
 
