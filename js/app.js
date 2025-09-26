@@ -98,6 +98,53 @@ function createMarker(location, color) {
         `;
     }
 
+    let historicalContextHtml = '';
+    if (location.historicalContext) {
+        historicalContextHtml = `
+            <div class="popup-section">
+                <h4>📜 역사적 배경</h4>
+                <p>${location.historicalContext}</p>
+            </div>
+        `;
+    }
+
+    let significanceHtml = '';
+    if (location.significance) {
+        significanceHtml = `
+            <div class="popup-section significance">
+                <h4>⭐ 이 장소가 중요한 이유</h4>
+                <p>${location.significance}</p>
+            </div>
+        `;
+    }
+
+    let archaeologyHtml = '';
+    if (location.archaeology) {
+        archaeologyHtml = `
+            <div class="popup-section">
+                <h4>🏺 고고학적 증거</h4>
+                <p>${location.archaeology}</p>
+            </div>
+        `;
+    }
+
+    let relatedPlacesHtml = '';
+    if (location.relatedPlaces && location.relatedPlaces.length > 0) {
+        relatedPlacesHtml = `
+            <div class="popup-section related-places">
+                <h4>🔗 관련 장소</h4>
+                <div class="related-places-grid">
+                    ${location.relatedPlaces.map(place => `
+                        <div class="related-place-card" onclick="navigateToPlace('${place.name}', '${place.section}')">
+                            <div class="related-place-name">${place.name}</div>
+                            <div class="related-place-reason">${place.reason}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+
     let popupContent = `
         <div class="custom-popup">
             <div class="popup-header">
@@ -107,7 +154,11 @@ function createMarker(location, color) {
                 <h4>📍 개요</h4>
                 <p>${location.description}</p>
             </div>
+            ${historicalContextHtml}
+            ${significanceHtml}
+            ${archaeologyHtml}
             ${eventsHtml}
+            ${relatedPlacesHtml}
         </div>
     `;
 
@@ -117,6 +168,29 @@ function createMarker(location, color) {
     });
 
     return marker;
+}
+
+// 관련 장소로 이동
+function navigateToPlace(placeName, sectionName) {
+    clearMap();
+
+    const section = bibleData[sectionName];
+    if (!section || !section.locations) return;
+
+    const location = section.locations.find(loc => loc.name === placeName);
+    if (!location) return;
+
+    const marker = createMarker(location, section.color, sectionName);
+    markers.push(marker);
+    marker.addTo(map);
+
+    map.setView([location.lat, location.lng], 10);
+
+    setTimeout(() => {
+        marker.openPopup();
+    }, 300);
+
+    updateCurrentSelection(sectionName, [location]);
 }
 
 // 여정 표시

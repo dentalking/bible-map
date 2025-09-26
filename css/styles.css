@@ -382,6 +382,52 @@ body {
     border-radius: 4px;
 }
 
+.popup-section.significance {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(139, 105, 20, 0.15));
+    border-left: 4px solid #d4af37;
+}
+
+.popup-section.related-places {
+    background: rgba(212, 175, 55, 0.05);
+    border-top: 2px dashed rgba(212, 175, 55, 0.3);
+}
+
+.related-places-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.related-place-card {
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.related-place-card:hover {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(139, 105, 20, 0.1));
+    border-color: #d4af37;
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.related-place-name {
+    font-weight: bold;
+    color: #8b6914;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.related-place-reason {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+}
+
 .info-box {
     margin-top: 20px;
     padding: 12px;
