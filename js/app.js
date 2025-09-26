@@ -563,8 +563,20 @@ function restorePosition(element) {
         element.style.right = "auto";
         element.style.bottom = "auto";
     } else {
-        // 저장된 위치가 없으면 현재 위치를 절대 좌표로 변환
-        convertToAbsolutePosition(element);
+        // 저장된 위치가 없으면 기본 위치 설정
+        if (id === 'legend') {
+            // 범례는 오른쪽 아래 (bottom: 20px, right: 20px 효과)
+            element.style.bottom = '20px';
+            element.style.right = '20px';
+            element.style.top = 'auto';
+            element.style.left = 'auto';
+        } else if (id === 'controlPanel') {
+            // 패널은 왼쪽 위 (이미 CSS에 설정되어 있음)
+            element.style.top = '20px';
+            element.style.left = '20px';
+            element.style.bottom = 'auto';
+            element.style.right = 'auto';
+        }
     }
 }
 
