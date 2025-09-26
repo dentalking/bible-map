@@ -438,6 +438,15 @@ toggleLegend.addEventListener('click', function() {
     localStorage.setItem('legendCollapsed', isCollapsed);
 });
 
+// CSS 위치를 절대 좌표로 변환 (드래그 전에 호출)
+function convertToAbsolutePosition(element) {
+    const rect = element.getBoundingClientRect();
+    element.style.top = rect.top + 'px';
+    element.style.left = rect.left + 'px';
+    element.style.right = 'auto';
+    element.style.bottom = 'auto';
+}
+
 // 드래그 기능
 function makeDraggable(element) {
     let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -451,6 +460,10 @@ function makeDraggable(element) {
     function dragMouseDown(e) {
         e = e || window.event;
         e.preventDefault();
+
+        // 드래그 시작 시 위치를 절대 좌표로 변환
+        convertToAbsolutePosition(element);
+
         pos3 = e.clientX;
         pos4 = e.clientY;
         document.onmouseup = closeDragElement;
@@ -460,6 +473,10 @@ function makeDraggable(element) {
 
     function dragTouchStart(e) {
         e.preventDefault();
+
+        // 드래그 시작 시 위치를 절대 좌표로 변환
+        convertToAbsolutePosition(element);
+
         const touch = e.touches[0];
         pos3 = touch.clientX;
         pos4 = touch.clientY;
@@ -545,6 +562,9 @@ function restorePosition(element) {
         element.style.left = position.left;
         element.style.right = "auto";
         element.style.bottom = "auto";
+    } else {
+        // 저장된 위치가 없으면 현재 위치를 절대 좌표로 변환
+        convertToAbsolutePosition(element);
     }
 }
 
