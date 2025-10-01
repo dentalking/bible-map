@@ -30,7 +30,6 @@
             <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="journeys-tab" onclick="switchTab(event, 'journeys')">여정</button>
             <button class="tab-btn" role="tab" aria-selected="false" aria-controls="old-testament-tab" onclick="switchTab(event, 'old-testament')">구약성경</button>
             <button class="tab-btn" role="tab" aria-selected="false" aria-controls="new-testament-tab" onclick="switchTab(event, 'new-testament')">신약성경</button>
-            <button class="tab-btn" role="tab" aria-selected="false" aria-controls="revelation-tab" onclick="switchTab(event, 'revelation')">계시록</button>
         </div>
 
         <!-- 여정 탭 -->
@@ -258,13 +257,10 @@
                     <button class="book-btn" onclick="showBook(event, '유다서')">유다서</button>
                 </div>
             </div>
-        </div>
 
-        <!-- 요한계시록 탭 -->
-        <div id="revelation-tab" class="tab-content">
-            <div class="testament-section">
-                <div class="testament-title">🔮 요한계시록</div>
-                <div class="journey-grid">
+            <div class="book-section">
+                <h3>🔮 요한계시록</h3>
+                <div class="journey-grid" style="margin-top: 10px;">
                     <button class="journey-btn" onclick="showJourney(event, 'revelation_seven')">
                         <span class="journey-icon">📜</span>
                         <div class="journey-info">
@@ -272,6 +268,8 @@
                             <span class="journey-desc">소아시아의 일곱 교회</span>
                         </div>
                     </button>
+                </div>
+                <div class="books-grid" style="margin-top: 10px;">
                     <button class="book-btn" onclick="showBook(event, '요한계시록')">요한계시록 전체 지명</button>
                 </div>
             </div>

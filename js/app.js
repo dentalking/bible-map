@@ -357,9 +357,6 @@ function switchTab(event, tabName) {
         case 'new-testament':
             document.getElementById('new-testament-tab').classList.add('active');
             break;
-        case 'revelation':
-            document.getElementById('revelation-tab').classList.add('active');
-            break;
     }
 
     // 해당 탭 버튼 활성화 및 aria-selected 업데이트
